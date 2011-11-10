@@ -8,8 +8,55 @@
 \begin{abstract}
 We analyse the results of PRL \textbf{104}, 197203 (2010) from T. Schneider \textit{et al.}, and describe a python module, thomas, which reproduces their calculations.
 \end{abstract}
-\section{Theory}
+\section{Recapitulation}
+T. Schneider \textit{et al.} (T \& Co.) begin with some ``standard" definitions. Namely, the group velocity is written as
+\begin{equation}\label{vg_def}
+\vec{v}_{g} (\vec{k}) = 2 \pi \nabla_{\vec{k}} f(\vec{k}),
+\end{equation}
+where $2 \pi f (\vec{k}) = \omega (\vec{k})$ and $\omega (\vec{k})$ is the dispersion relation for an unbounded film in two-dimensions from Kalinikos and Slavin, with the assumptions built into the dispersion equation used in boris. Additionally, we have $\vec{k} = k_{y} \hat{y}_{0} + k_{z} \hat{z}_{0}$ and $\vec{v}_{g} = v_{y} \hat{y}_{0} + v_{z} \hat{z}_{0}$. The angle of the group velocity with respect to the applied magnetic field $\vec{H}_{0}$ is given by
+\begin{equation}\label{vg_angle}
+\theta = \arctan{\frac{v_{y}}{v_{z}}} = - \arctan{\frac{d k_{z}}{d k_{y}}}.
+\end{equation}
+If we consider all parameters fixed, as well as the excitation frequency $f_{0}$, then we may write
+\begin{equation}
+k_{z} = k_{z} (k_{y}).
+\end{equation}
+From equation (\ref{vg_def}), we know that the unit normal vector $\vec{\textbf{N}}$ is given by $\vec{\textbf{N}} = \frac{\vec{v}_{g}}{\| \vec{v}_{g} \|}$. It may happen that, at some value of $k_{y}$, the curvature of the slowness surface vanishes. In this case, the unit tangent vector $\vec{\textbf{T}}$ becomes constant, which is equivalent to the unit normal vector, $\vec{\textbf{N}}$ becoming constant. 
 
+If we consider the isofrequency curve on the dispersion surface as a plane curve given by $k_{z} ( k_{y} )$, the picture is greatly simplified. In effect, at some value of the parametrization parameter, here $k_{y}$, it may occur that $\frac{d^2 k_{z}}{d k_{y}^2}$ vanishes, implying that the slope of the curve, i.e. the direction of the tangent to the curve, becomes constant. In turn, the normal to the curve, given by the group velocity, becomes constant over a range of $k_{y}$ until $\frac{d^2 k_{z}}{d k_{y}^2}$ is once again non-zero. Over this range, the phase velocity of the wave may vary, perhaps even greatly, but the group velocities are all parallel.
+
+Neglecting exchange means the isofrequency curve doesn't close. In effect, once the critical wavevector $k_{c}$ such that 
+\begin{equation}\label{caustic_condition}
+\frac{d^2 k_{z}}{d k_{y}^2} \bigg|_{k_{y} = k_{c}} = 0
+\end{equation} 
+is reached, all wavevectors emit energy in the same direction. Including exchange clearly alters the picture.
+
+T \& Co. say ``caustic beams are formed when the direction of group velocity determined by the angle $\theta$ is the same for waves having different wave vectors k. This condition can be formulated as $\frac{d \theta}{d k_{y}}$." Of course, this condition is equivalent to our reasoning above.
+
+If we wish to take a ``full" slowness surface and calculate an emission pattern that clearly displays emission of caustic beams, then we should calculate both $k_{c}$ but also the wavevector greater than $k_{c}$ at which the curvature, i.e. $\frac{d^2 k_{z}}{d k_{y}^2}$ once again becomes non-zero. In reality, we might use a condition such as $\vec{v}_{g}$ varies greater than $1 \deg$ from its orientation at $k_{c}$.
+
+In order to obtain a simplified form of the dispersion relation, T \& Co. expand the $k_{z}$, on the isofrequency curve, in a Taylor series around $k_{y} = k_{c}$
+\begin{equation}
+k_{z} (k_{y} ) = k_{z} (k_{c}) + \frac{d k_{z}}{d k_{y}} \bigg|_{k_{y} = k_{c}} (k_{y} - k_{c}) + \frac{d^2 k_{z}}{d k_{y}^2} \bigg|_{k_{y} = k_{c}}(k_{y} - k_{c})^2 + \frac{1}{6} \frac{d^3 k_{z}}{d k_{y}^3} \bigg|_{k_{y} = k_{c}}(k_{y} - k_{c})^3 + \cdots
+\end{equation}
+which, once applying equations (\ref{vg_angle}) and (\ref{caustic_condition}), becomes
+\begin{equation}\label{kz_expand}
+k_{z} (k_{y} ) = k_{z} (k_{c}) - \tan{\theta_{c}} (k_{y} - k_{c}) + \frac{1}{6} \frac{d^3 k_{z}}{d k_{y}^3}\bigg|_{k_{y} = k_{c}} (k_{y} - k_{c})^3 + \cdots
+\end{equation}
+
+As for synthesizing the magnetization profile of a point source, T \& Co. essentially follow our reasoning, albeit neglecting damping, and they do apply equation (\ref{kz_expand}) in order to get an explicit (albeit approximate) expression for the magnetization profile due to a point source.
+
+We should note that, although T \& Co. have used equation (\ref{kz_expand}) to evade, so to speak, finding an explicit expression for $k_{z} ( k_{y} )$, they nevertheless must find $\frac{d^3 k_{z}}{d k_{y}^3}$ in order to calculate the characteristic length scale of the caustic beam
+\begin{equation}
+l_{c} = \left( \frac{1}{2} \frac{d^3 k_{z}}{d k_{y}^3} \right)^{1/2} \cos^2{\theta_{c}}.
+\end{equation}
+Therefore I do not immediately see a way around finding $k_{z} (k_{y})$.
+
+At any rate, once we have the function $a_{0} (\vec{r})$, i.e. the spatial profile of the magnetization due to a point source, we must account for the finite width of the ``point source." T \& Co. write the profile of the magnetization due to a source of finite width $W$ as the convolution
+\begin{equation}
+a ( \vec{r} ) = \int_{0}^{W} a_{0}(\vec{r} - y^{\prime} \hat{y})s(y^{\prime})d y^{\prime}
+\end{equation}  
+where $s(y)$ is the ``amplitude distribution at z = 0." It is not clear to me how T \& Co have calculated $s(y)$.
 \end{document}
 
 % Figure and Figure Reference example
